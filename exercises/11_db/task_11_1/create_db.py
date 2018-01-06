@@ -23,3 +23,25 @@ db_filename = 'dhcp_snooping.db'
 schema_filename = 'dhcp_snooping_schema.sql'
 
 
+# Решение  
+
+import os
+import sqlite3
+import re
+
+schema_filename = 'dhcp_snooping_schema.sql'
+
+
+
+def createdb(dbname):
+    db_exists = os.path.exists(dbname)
+    if not db_exists:
+        print('Creating schema...')
+        conn = sqlite3.connect(dbname)
+        with open(schema_filename, 'r') as f:
+            schema = f.read()
+        conn.executescript(schema)
+        conn.close()
+        print('Done')
+    else:
+        print('Database exists, assume dhcp table does, too.')
