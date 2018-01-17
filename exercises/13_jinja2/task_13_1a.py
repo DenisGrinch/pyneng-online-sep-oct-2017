@@ -14,3 +14,23 @@
 
 '''
 
+#Решение
+
+def config(path, yamlfile):
+    if '/' in path:
+        TEMPLATE_DIR, template_file = path.split('/')
+    else:
+        TEMPLATE_DIR = '.'
+        template_file = path
+    #TEMPLATE_DIR, template_file = path.split('/')
+    VARS_FILE = yamlfile
+    env = Environment(loader = FileSystemLoader(TEMPLATE_DIR),
+                      trim_blocks=True, lstrip_blocks=True)
+    template = env.get_template(template_file)
+
+    vars_dict = yaml.load(open(VARS_FILE))
+
+    print(template.render(vars_dict))
+
+
+config(sys.argv[1], sys.argv[2])
